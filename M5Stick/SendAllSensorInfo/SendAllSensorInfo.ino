@@ -1,41 +1,32 @@
 #include <M5StickC.h>
 
-float xAccel;
-float yAccel;
-float zAccel;
+float accX = 0;
+float accY = 0;
+float accZ = 0;
+
+float gyroX = 0;
+float gyroY = 0;
+float gyroZ = 0;
+
+float temp = 0;
 
 void setup() {
   Serial.begin(9600);
-  M5.Lcd.print("");
+
+  M5.Lcd.fillScreen(BLACK);
+
+  M5.begin();
+  M5.MPU6886.Init();
 }
 
 void loop() {
-  xAccel = GetXAccel();
-  yAccel = GetYAccel();
-  zAccel = GetZAccel();
-  // Serial.print(xAccel);
-  // Serial.print(yAccel);
-  // Serial.print(zAccel);
-  Serial.print("Hello M5");
-}
+  M5.MPU6886.getAccelData(&accX, &accY, &accZ);
+  Serial.printf("%f, %f, %f", accX, accY, accZ);
 
-// x軸の加速度を取得する
-float GetXAccel() {
-  float xAccel;
-  M5.MPU6886.getAccelData(&xAccel, 0, 0);
-  return xAccel;
-}
+  M5.MPU6886.getGyroData(&gyroX, &gyroY, &gyroZ);
+  Serial.printf("%f, %f, %f", gyroX, gyroY, gyroZ);
+  M5.MPU6886.getTempData(&temp);
+  Serial.printf("%f", temp);
 
-// y軸の加速度を取得する
-float GetYAccel() {
-  float yAccel;
-  M5.MPU6886.getAccelData(0, &yAccel, 0);
-  return yAccel;
-}
-
-// z軸の加速度を取得する
-float GetZAccel() {
-  float zAccel;
-  M5.MPU6886.getAccelData(0, 0, &zAccel);
-  return zAccel;
+  delay(100);
 }

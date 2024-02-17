@@ -10,8 +10,8 @@ public class SerialHandler : MonoBehaviour
     public event Action OnDataReceived;
 
     [Header("Serial Options")]
-    [SerializeField, Tooltip("開かれるポート名")] string openedPortName = "COM1";
-    [SerializeField, Tooltip("開かれるポートのボーレート")] int baudRate = 9600;
+    [SerializeField, Tooltip("開かれるポート名")] string openedPortName;
+    [SerializeField, Tooltip("開かれるポートのボーレート")] int baudRate;
 
     SerialPort serialPort;      // シリアルポート
 
