@@ -6,13 +6,17 @@ float zAccel;
 
 void setup() {
   Serial.begin(9600);
-  M5.Lcd.print();
+  M5.Lcd.print("");
 }
 
 void loop() {
-  Serial.print(GetXAccel());
-  Serial.print(GetYAccel());
-  Serial.print(GetYAccel());
+  xAccel = GetXAccel();
+  yAccel = GetYAccel();
+  zAccel = GetZAccel();
+  // Serial.print(xAccel);
+  // Serial.print(yAccel);
+  // Serial.print(zAccel);
+  Serial.print("Hello M5");
 }
 
 // x軸の加速度を取得する
