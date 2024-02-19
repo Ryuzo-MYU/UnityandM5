@@ -12,7 +12,7 @@ bool btnBToggleSwitch = false;  // ボタンB(「M5」から見て右側のボ�
 // Bluetooth
 // --------------------------------
 // Bluetoothデバイスの識別名
-String name = "M5-02";
+String name = "M5-01";
 
 // BluetoothSerialインスタンスを生成
 BluetoothSerial SerialBT;
@@ -35,7 +35,7 @@ float temp = 0;
 
 void setup() {
   M5.begin();
-  Serial.begin(112500);
+  Serial.begin(115200);
 
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setRotation(0);
@@ -52,14 +52,14 @@ void setup() {
 void loop() {
   M5.update();  // 本体のボタン状態更新 ※必ず最初に記入が必要
 
-  Serial.printf("%s\n", name);
-  SerialBT.printf("%s\n", name);
+  Serial.printf("%s,", name);
+  SerialBT.printf("%s,", name);
 
   // タクトスイッチの状態
   btnATactSwitch = M5.BtnA.isPressed();
   btnBTactSwitch = M5.BtnB.isPressed();
-  Serial.printf("%d,%d\n", btnATactSwitch, btnBTactSwitch);
-  SerialBT.printf("%d,%d\n", btnATactSwitch, btnBTactSwitch);
+  Serial.printf("%d,%d,", btnATactSwitch, btnBTactSwitch);
+  SerialBT.printf("%d,%d,", btnATactSwitch, btnBTactSwitch);
 
   // トグルスイッチ(仮想)の状態
   if (M5.BtnA.wasPressed()) {
@@ -68,29 +68,29 @@ void loop() {
   if (M5.BtnB.wasPressed()) {
     btnBToggleSwitch = !btnBToggleSwitch;
   }
-  Serial.printf("%d,%d\n", btnAToggleSwitch, btnBToggleSwitch);
-  SerialBT.printf("%d,%d\n", btnAToggleSwitch, btnBToggleSwitch);
+  Serial.printf("%d,%d,", btnAToggleSwitch, btnBToggleSwitch);
+  SerialBT.printf("%d,%d,", btnAToggleSwitch, btnBToggleSwitch);
 
   // Lチカ
   LEDBlink(btnAToggleSwitch);
 
   // 加速度の取得
   M5.MPU6886.getAccelData(&accX, &accY, &accZ);
-  Serial.printf("%.2f,%.2f,%.2f\n", accX * 100, accY * 100, accZ * 100);
-  SerialBT.printf("%.2f,%.2f,%.2f\n", accX * 100, accY * 100, accZ * 100);
+  Serial.printf("%.2f,%.2f,%.2f,", accX * 100, accY * 100, accZ * 100);
+  SerialBT.printf("%.2f,%.2f,%.2f,", accX * 100, accY * 100, accZ * 100);
 
   // ジャイロの取得
   M5.MPU6886.getGyroData(&gyroX, &gyroY, &gyroZ);
-  Serial.printf("%.2f,%.2f,%.2f\n", gyroX, gyroY, gyroZ);
-  SerialBT.printf("%.2f,%.2f,%.2f\n", gyroX, gyroY, gyroZ);
+  Serial.printf("%.2f,%.2f,%.2f,", gyroX, gyroY, gyroZ);
+  SerialBT.printf("%.2f,%.2f,%.2f,", gyroX, gyroY, gyroZ);
 
   // 気温の取得
   M5.MPU6886.getTempData(&temp);
-  Serial.printf("%.2fC\n", temp);
-  SerialBT.printf("%.2fC\n", temp);
+  Serial.printf("%.2fC,", temp);
+  SerialBT.printf("%.2fC,", temp);
 
-  Serial.printf("\n");
-  SerialBT.printf("\n");
+  Serial.println();
+  SerialBT.println();
   delay(100);
 }
 

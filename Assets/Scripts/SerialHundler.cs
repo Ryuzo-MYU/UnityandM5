@@ -1,30 +1,28 @@
 using UnityEngine;
+using System.Collections;
 using System.IO.Ports;
 using System.Threading;
-using System;
 
-// データを送受信する、シリアル通信クラス
 public class SerialHandler : MonoBehaviour
 {
-    // シリアル通信で、データを受け取った時のイベント
-    public event Action OnDataReceived;
+    public delegate void SerialDataReceivedEventHandler(string message);
+    public event SerialDataReceivedEventHandler OnDataReceived;
 
-    [Header("Serial Options")]
-    [SerializeField, Tooltip("開かれるポート名")] string openedPortName;
-    [SerializeField, Tooltip("開かれるポートのボーレート")] int baudRate;
+    //ポート名
+    //例
+    //Linuxでは/dev/ttyUSB0
+    //windowsではCOM1
+    //Macでは/dev/tty.usbmodem1421など
+    public string portName;
+    public int baudRate;
 
-    SerialPort serialPort;      // シリアルポート
+    private SerialPort serialPort_;
+    private Thread thread_;
+    private bool isRunning_ = false;
 
-    // thread
-    Thread readingThread;       // 読み取り用のスレッド
-    bool isThreadRunning;       // スレッド実行中フラグ
-    
-    string message;             // message
-    bool isNewMessageReceived;  // 新しくメッセージを受け取ったかどうか
+    private string message_;
+    private bool isNewMessageReceived_ = false;
 
-    //--------------------------------------------------
-
-    // 開始時にポートを開く
     void Awake()
     {
         Open();
@@ -32,111 +30,73 @@ public class SerialHandler : MonoBehaviour
 
     void Update()
     {
-        // 受け取ったら、受け取り時の処理を実行
-        if (isNewMessageReceived)
+        if (isNewMessageReceived_)
         {
-            OnDataReceived();
+            OnDataReceived(message_);
         }
-
-        isNewMessageReceived = false;
+        isNewMessageReceived_ = false;
     }
 
-    // 終了時にポートを閉じる
-    private void OnDestroy()
+    void OnDestroy()
     {
         Close();
     }
 
-    //--------------------------------------------------
-
-    // シリアルポートを開く
-    void Open()
+    private void Open()
     {
-        serialPort = new SerialPort(openedPortName, baudRate, Parity.None, 8, StopBits.One);    // ポートインスタンス作成
-        serialPort.Open();  // 作成したポートを開く
+        serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
+        //または
+        //serialPort_ = new SerialPort(portName, baudRate);
+        serialPort_.Open();
 
-        isThreadRunning = true; // 実行中フラグ立てる
+        isRunning_ = true;
 
-        readingThread = new Thread(Read);   // スレッド作成
-        readingThread.Start();              // スレッド開始(読み込み)
-
-        print("port was setuped.");
+        thread_ = new Thread(Read);
+        thread_.Start();
     }
 
-    // シリアルポートを閉じる
-    void Close()
+    private void Close()
     {
-        // フラグ降ろす
-        isNewMessageReceived = false;
-        isThreadRunning = false;
+        isNewMessageReceived_ = false;
+        isRunning_ = false;
 
-        if (readingThread != null && readingThread.IsAlive)
+        if (thread_ != null && thread_.IsAlive)
         {
-            // スレッドが終了するまで待機
-            print("waiting");
-
-            readingThread.Join(TimeSpan.FromSeconds(.5f));
+            thread_.Join();
         }
 
-        // ポートが開いていたら、閉じる
-        if (serialPort != null && serialPort.IsOpen)
+        if (serialPort_ != null && serialPort_.IsOpen)
         {
-            serialPort.Close();     // 閉じる
-            serialPort.Dispose();   // リソース開放
-
-            print("port was closed.");
+            serialPort_.Close();
+            serialPort_.Dispose();
         }
     }
 
-    //--------------------------------------------------
-
-    // シリアルポートに読み込む
-    void Read()
+    private void Read()
     {
-        while (isThreadRunning && serialPort != null && serialPort.IsOpen)
+        while (isRunning_ && serialPort_ != null && serialPort_.IsOpen)
         {
-
             try
             {
-                // ポートからのバイト数が0より多かったら、読み込み
-                if (serialPort.BytesToRead > 0)
-                {
-                    message = serialPort.ReadLine();    // データ読み込み
-                    isNewMessageReceived = true;        // メッセージ受け取りフラグ立てる
-                }
+                message_ = serialPort_.ReadLine();
+                isNewMessageReceived_ = true;
             }
-
-            // 例外
-            catch (Exception exception)
+            catch (System.Exception e)
             {
-                Debug.LogWarning(exception.Message);
+                Debug.LogWarning(e.Message);
             }
         }
     }
 
-    // シリアルポートに書き込む
     public void Write(string message)
     {
-        // 書き込み
         try
         {
-            serialPort.Write(message);
+            serialPort_.Write(message);
         }
-
-        // 警告
-        catch (Exception exception)
+        catch (System.Exception e)
         {
-            Debug.LogWarning(exception.Message);
+            Debug.LogWarning(e.Message);
         }
-    }
-
-    //--------------------------------------------------
-
-    // コンマで区切られたメッセージを返す
-    public string[] GetSplitedData()
-    {
-        // 受け取ったメッセージを区切る
-        return message.Split(",");
     }
 }
-

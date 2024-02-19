@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "UnityandM5.sln"
+    "dotnet.defaultSolution": "UnityandM5.sln",
+    "liveServer.settings.port": 5501
 }
