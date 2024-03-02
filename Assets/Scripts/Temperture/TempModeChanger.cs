@@ -19,7 +19,7 @@ public class TempModeChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// 現在の最高温度平均と、設定された境界値を照らしあわあせて
+    /// 現在の最高温度平均と、設定された境界値を照らしあわあせて、
     /// 現在のモードを決定する
     /// </summary>
     /// <param name="maxTempAverage"></param>
