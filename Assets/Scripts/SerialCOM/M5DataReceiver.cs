@@ -19,9 +19,11 @@ public class M5DataReceiver : MonoBehaviour
     //受信した信号(message)に対する処理
     void OnDataReceived(string message)
     {
+        Debug.Log("Data Length :" + message.Length);
+
         var data = message.Split(
                 new string[] { "\t" }, System.StringSplitOptions.None);
-        if (data.Length < 2) return;
+        if (data.Length < 1) return;
 
         try
         {

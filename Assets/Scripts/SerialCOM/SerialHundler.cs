@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
+using UnityEditor.Experimental.GraphView;
+using System.Linq;
 
 public class SerialHandler : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class SerialHandler : MonoBehaviour
     //Linuxでは/dev/ttyUSB0
     //windowsではCOM1
     //Macでは/dev/tty.usbmodem1421など
+    public string[] m5Ports;
     public string portName;
     public int baudRate;
 
@@ -24,6 +27,12 @@ public class SerialHandler : MonoBehaviour
 
     void Awake()
     {
+        // 利用可能なシリアルポートの取得
+        string[] availablePorts = SerialPort.GetPortNames();
+
+        // 利用可能なポートと一致するポートを検索
+        portName = FindMatchingPort(m5Ports, availablePorts);
+
         Open();
     }
 
@@ -39,6 +48,19 @@ public class SerialHandler : MonoBehaviour
     void OnDestroy()
     {
         Close();
+    }
+
+    // 利用可能なポートと一致するポートを検索するメソッド
+    private string FindMatchingPort(string[] allowedPorts, string[] availablePorts)
+    {
+        foreach (string port in availablePorts)
+        {
+            if (allowedPorts.Contains(port))
+            {
+                return port; // 一致するポートが見つかった場合、そのポートを返す
+            }
+        }
+        return null; // 一致するポートが見つからなかった場合、nullを返す
     }
 
     private void Open()
