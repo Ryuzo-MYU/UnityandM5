@@ -7,10 +7,10 @@ using UnityEngine;
 public class TempModeChanger : MonoBehaviour
 {
     [SerializeField] MaxTempAverageCalcurator maxTempAverageCalcurator; //最高温度の平均値計算クラスのインスタンス
-    public float maxTempAverage; // 最高温度平均
+    [SerializeField] float maxTempAverage; // 最高温度平均
 
     public string currentMode; //現在のモード
-    public List<ModeValueTuple> modeValuePairs; //モードと境界値のリスト
+    [SerializeField] public List<ModeValuePair> modeValuePairs; //モードと境界値のリスト
 
     private void Update()
     {
@@ -24,9 +24,9 @@ public class TempModeChanger : MonoBehaviour
     /// </summary>
     /// <param name="maxTempAverage"></param>
     /// <param name="modeValuePairs"></param>
-    protected string ChangeMode(float maxTempAverage, List<ModeValueTuple> modeValuePairs)
+    protected string ChangeMode(float maxTempAverage, List<ModeValuePair> modeValuePairs)
     {
-        List<ModeValueTuple> list = modeValuePairs;
+        List<ModeValuePair> list = modeValuePairs;
         string currentMode = null;
         foreach (var pair in list)
         {
@@ -42,7 +42,7 @@ public class TempModeChanger : MonoBehaviour
 
     //Inspectorに複数データを表示するためのクラス
     [System.SerializableAttribute]
-    public class ModeValueTuple
+    public class ModeValuePair
     {
         public string Mode;
         public float BoundaryValue;

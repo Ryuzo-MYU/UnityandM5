@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4184652262274020140}
   - component: {fileID: 8447997808995779181}
   m_Layer: 0
-  m_Name: Shake
+  m_Name: FrictionTempModeChanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,8 +49,8 @@ MonoBehaviour:
   currentMode: 
   modeValuePairs:
   - Mode: HIGH
-    BoundaryValue: 60
+    BoundaryValue: 40
   - Mode: MIDDLE
-    BoundaryValue: 50
+    BoundaryValue: 29
   - Mode: LOW
     BoundaryValue: -100
