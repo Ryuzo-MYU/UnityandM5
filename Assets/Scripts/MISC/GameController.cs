@@ -43,9 +43,10 @@ public class GameController : MonoBehaviour
     public void Retry()
     {
         // 現在のSceneを取得
-        Scene loadScene = SceneManager.GetActiveScene();
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
         // 現在のシーンを再読み込みする
-        SceneManager.LoadScene(loadScene.name);
+        SceneManager.LoadScene(currentScene);
+        Time.timeScale = 1;
         gameEnd = false;
     }
 
