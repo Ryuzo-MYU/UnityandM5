@@ -14,4 +14,15 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 0;
     }
+
+    /// <summary>
+    /// リトライ処理。現在のシーンを再読み込みする
+    /// </summary>
+    public void Retry()
+    {
+        // 現在のSceneを取得
+        Scene loadScene = SceneManager.GetActiveScene();
+        // 現在のシーンを再読み込みする
+        SceneManager.LoadScene(loadScene.name);
+    }
 }

@@ -9,8 +9,19 @@ public class FireStarter : MonoBehaviour
     private void Update()
     {
         currentMode = tempModeChanger.currentMode; //currentModeを更新
+
         // Debug.Log("IgnitionPower : " + GetIgnitionPower());
         // Debug.Log("TinderDamage : " + GetTinderDamage());
+
+        AudioSource source = GetComponent<AudioSource>();
+        if (currentMode != "LOW")
+        {
+            source.mute = false;
+        }
+        else
+        {
+            source.mute = true;
+        }
     }
 
     /// <summary>
