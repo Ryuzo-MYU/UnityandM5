@@ -13,14 +13,17 @@ public class Tinder : MonoBehaviour
     [SerializeField] private float coolDownDegree; // 火種が冷める温度
     [SerializeField] private Slider hpBar; // HPバー
     [SerializeField] private Slider temperatureFBar; // 火種の温度バー
-    [SerializeField] private AudioClip litSound;
 
-
-    private void Update()
+    private void FixedUpdate()
     {
         UpTemperature();
         DecreaseHp();
         CoolDown();
+        if (currentTemperature >= ignitionTemperture)
+        {
+            GameObject fire = gameObject.transform.GetChild(0).gameObject;
+            fire.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -69,12 +72,5 @@ public class Tinder : MonoBehaviour
         tempBar.value = currentTemperature / ignitionTemperture;
     }
 
-    /// <summary>
-    /// 火起こし成功時のSEを再生
-    /// </summary>
-    private void PlayLitSound()
-    {
-        AudioSource source = GetComponent<AudioSource>();
-        source.PlayOneShot(litSound);
-    }
+
 }

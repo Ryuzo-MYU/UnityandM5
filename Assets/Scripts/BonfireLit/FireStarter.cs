@@ -6,7 +6,7 @@ public class FireStarter : MonoBehaviour
     [SerializeField] string currentMode;
     [SerializeField] ModePowerDamageTable modePowerDamageTable; //モードをキーとした、点火力と火種ダメージのリスト
 
-    private void Update()
+    private void FixedUpdate()
     {
         currentMode = tempModeChanger.currentMode; //currentModeを更新
 
@@ -62,6 +62,11 @@ public class FireStarter : MonoBehaviour
             Debug.Log("状態が合致しません");
             return 0;
         }
+    }
+
+    public string GetCurrentMode()
+    {
+        return currentMode;
     }
 
     /// <summary>
