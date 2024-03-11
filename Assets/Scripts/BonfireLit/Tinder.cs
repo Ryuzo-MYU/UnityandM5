@@ -14,6 +14,11 @@ public class Tinder : MonoBehaviour
     [SerializeField] private Slider hpBar; // HPバー
     [SerializeField] private Slider temperatureFBar; // 火種の温度バー
 
+    private void Start()
+    {
+        currentHp = hp;
+        currentTemperature = 0;
+    }
     private void FixedUpdate()
     {
         UpTemperature();
@@ -65,7 +70,7 @@ public class Tinder : MonoBehaviour
         UpdateTemperatureBar(temperatureFBar);
     }
     /// <summary>
-    /// HPバーの長さを更新
+    /// 温度バーの長さを更新
     /// </summary>
     private void UpdateTemperatureBar(Slider tempBar)
     {

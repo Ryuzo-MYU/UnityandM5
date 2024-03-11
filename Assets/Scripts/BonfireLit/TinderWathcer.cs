@@ -10,7 +10,7 @@ public class TinderWathcer : MonoBehaviour
     [SerializeField] GameObject monkeyArm;
     [SerializeField] GameObject monkeyBody;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (tinder.currentHp <= 0) { GameOver(); }
         if (tinder.currentTemperature > tinder.ignitionTemperture) { GameClear(); }

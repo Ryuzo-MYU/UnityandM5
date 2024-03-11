@@ -13,6 +13,11 @@ public class GameController : MonoBehaviour
     [SerializeField] bool gameEnd;
     [SerializeField] M5DataReceiver m5;
 
+    private void Start()
+    {
+        gameEnd = false;
+        Time.timeScale = 1;
+    }
     private void Update()
     {
         if (gameEnd && m5.sensorInfo.btnATactSwitch == 1)
@@ -42,12 +47,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void Retry()
     {
-        // 現在のSceneを取得
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
-        // 現在のシーンを再読み込みする
-        SceneManager.LoadScene(currentScene);
-        Time.timeScale = 1;
-        gameEnd = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>
