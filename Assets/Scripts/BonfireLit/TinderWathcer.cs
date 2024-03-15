@@ -13,7 +13,7 @@ public class TinderWathcer : MonoBehaviour
     private void FixedUpdate()
     {
         if (tinder.currentHp <= 0) { GameOver(); }
-        if (tinder.currentTemperature > tinder.ignitionTemperture) { GameClear(); }
+        if (tinder.currentTemperature > tinder.ignitionTemperature) { GameClear(); }
     }
     private void GameClear()
     {

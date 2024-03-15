@@ -8,11 +8,11 @@ public class Tinder : MonoBehaviour
     [SerializeField] private FireStarter fireStarter; //火おこし器インスタンス
     [SerializeField] public float hp; // 火種の耐久力
     [SerializeField] public float currentHp; // 現在の耐久力
-    [SerializeField] public float ignitionTemperture; // 火種が点火する温度
+    [SerializeField] public float ignitionTemperature; // 火種が点火する温度
     [SerializeField] public float currentTemperature; // 現在の火種の温度
     [SerializeField] private float coolDownDegree; // 火種が冷める温度
     [SerializeField] private Slider hpBar; // HPバー
-    [SerializeField] private Slider temperatureFBar; // 火種の温度バー
+    [SerializeField] private Slider temperatureBar; // 火種の温度バー
 
     private void Start()
     {
@@ -24,7 +24,7 @@ public class Tinder : MonoBehaviour
         UpTemperature();
         DecreaseHp();
         CoolDown();
-        if (currentTemperature >= ignitionTemperture)
+        if (currentTemperature >= ignitionTemperature)
         {
             GameObject fire = gameObject.transform.GetChild(0).gameObject;
             fire.SetActive(true);
@@ -67,14 +67,14 @@ public class Tinder : MonoBehaviour
     {
         float ignitionPower = fireStarter.GetIgnitionPower();
         currentTemperature += ignitionPower;
-        UpdateTemperatureBar(temperatureFBar);
+        UpdateTemperatureBar(temperatureBar);
     }
     /// <summary>
     /// 温度バーの長さを更新
     /// </summary>
     private void UpdateTemperatureBar(Slider tempBar)
     {
-        tempBar.value = currentTemperature / ignitionTemperture;
+        tempBar.value = currentTemperature / ignitionTemperature;
     }
 
 

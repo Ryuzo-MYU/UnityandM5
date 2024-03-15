@@ -14,7 +14,7 @@ public class FireandSmoke : MonoBehaviour
         {
             spriteRenderer.sprite = smoke;
         }
-        if (tinder.currentTemperature >= tinder.ignitionTemperture)
+        if (tinder.currentTemperature >= tinder.ignitionTemperature)
         {
             spriteRenderer.sprite = fire;
         }
