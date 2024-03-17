@@ -4,18 +4,9 @@ using UnityEngine;
 
 public class MonkeyArmAnimatorController : MonoBehaviour
 {
-    [SerializeField] Animator animator;
-    [SerializeField] FireStarter fireStarter;
-    [SerializeField] string mode;
+    [SerializeField] Animator animator; // アニメーションコントローラー
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        mode = fireStarter.GetCurrentMode();
-        AnimatorUpdate(mode);
-    }
-
-    private void AnimatorUpdate(string mode)
+    public void AnimatorUpdate(string mode)
     {
         switch (mode)
         {
@@ -37,6 +28,7 @@ public class MonkeyArmAnimatorController : MonoBehaviour
     {
         animator.SetBool("GameClear", true);
     }
+
     public void GameOver()
     {
         animator.SetBool("GameOver", true);

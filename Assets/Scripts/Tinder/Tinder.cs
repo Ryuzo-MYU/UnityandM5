@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +22,6 @@ public class Tinder : MonoBehaviour
         UpTemperature();
         DecreaseHp();
         CoolDown();
-        if (currentTemperature >= ignitionTemperature)
-        {
-            GameObject fire = gameObject.transform.GetChild(0).gameObject;
-            fire.SetActive(true);
-        }
     }
 
     /// <summary>
@@ -69,6 +62,7 @@ public class Tinder : MonoBehaviour
         currentTemperature += ignitionPower;
         UpdateTemperatureBar(temperatureBar);
     }
+
     /// <summary>
     /// 温度バーの長さを更新
     /// </summary>
@@ -76,6 +70,4 @@ public class Tinder : MonoBehaviour
     {
         tempBar.value = currentTemperature / ignitionTemperature;
     }
-
-
 }
